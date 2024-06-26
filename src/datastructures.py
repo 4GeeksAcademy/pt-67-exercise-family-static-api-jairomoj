@@ -9,6 +9,8 @@ update this file to implement the following already declared methods:
 from random import randint
 
 class FamilyStructure:
+    _members = []
+    
     def __init__(self, last_name):
         self.last_name = last_name
 
@@ -21,15 +23,36 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
-        pass
+        new_member = {
+            "id": self._generateId(),
+            "first_name": member['first_name'],
+            "last_name": member['last_name'],
+            "age": member['age'],
+            "lucky_numbers": member['lucky_numbers']
+        }
+
+        self._members.append(new_member)
+        return self._members
 
     def delete_member(self, id):
         # fill this method and update the return
-        pass
+        i = 0
+
+        for member in self._members:
+            if member['id'] == id:
+                self._members.pop(i)
+            i = i + 1
+        
+        return self._members
 
     def get_member(self, id):
         # fill this method and update the return
-        pass
+        i = 0
+
+        for member in self._members:
+            if member['id'] == id:
+                return self._members[i]
+            i = i + 1
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):

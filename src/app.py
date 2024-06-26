@@ -24,7 +24,7 @@ def handle_invalid_usage(error):
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
-
+# añadir mi codigo aquí!!!
 @app.route('/members', methods=['GET'])
 def handle_hello():
 
@@ -35,6 +35,62 @@ def handle_hello():
         "family": members
     }
 
+
+    return jsonify(response_body), 200
+
+@app.route('/member', methods=['POST'])
+def create_person():
+    # POST request
+    body = request.get_json()  # Obtener el request body de la solicitud
+    
+    if body is None:
+        return "El cuerpo de la solicitud es null", 400
+    if 'first_name' not in body:
+        return 'Debes especificar el nombre (first_name)', 400
+    if 'age' not in body:
+        return 'Debes especificar la edad (age)', 400
+    if 'lucky_numbers' not in body:
+        return 'Debes especificar los números de la suerte (lucky_numbers)', 400
+    
+    members = jackson_family.add_member(body)
+    response_body = {
+        "hello": "world",
+        "family": members
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/member/<int:id>', methods=['DELETE'])
+def delete_person(id):
+    body = request.get_json()
+
+    if body is None:
+        return "El cuerpo de la solicitud es null", 400
+    if 'id' not in body:
+        return "Debes especificar el id", 400
+    
+    members = jackson_family.delete_member(id)
+    response_body = {
+        "hello": "world",
+        "family": members
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/member/<int:id>', methods=['GET'])
+def get_person(id):
+    body = request.get_json()
+
+    if body is None:
+        return "El cuerpo de la solicitud es null", 400
+    if 'id' not in body:
+        return "Debes especificar el id", 400
+    
+    members = jackson_family.get_member(id)
+    response_body = {
+        "hello": "world",
+        "family": members
+    }
 
     return jsonify(response_body), 200
 
