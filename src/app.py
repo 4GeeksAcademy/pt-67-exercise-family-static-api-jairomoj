@@ -62,13 +62,6 @@ def create_person():
 
 @app.route('/member/<int:id>', methods=['DELETE'])
 def delete_person(id):
-    body = request.get_json()
-
-    if body is None:
-        return "El cuerpo de la solicitud es null", 400
-    if 'id' not in body:
-        return "Debes especificar el id", 400
-    
     members = jackson_family.delete_member(id)
     response_body = {
         "hello": "world",
@@ -79,13 +72,6 @@ def delete_person(id):
 
 @app.route('/member/<int:id>', methods=['GET'])
 def get_person(id):
-    body = request.get_json()
-
-    if body is None:
-        return "El cuerpo de la solicitud es null", 400
-    if 'id' not in body:
-        return "Debes especificar el id", 400
-    
     members = jackson_family.get_member(id)
     response_body = {
         "hello": "world",
