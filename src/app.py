@@ -62,10 +62,14 @@ def create_person():
 
 @app.route('/member/<int:id>', methods=['DELETE'])
 def delete_person(id):
-    members = jackson_family.delete_member(id)
+    deleted = jackson_family.delete_member(id)
+
+    if deleted is False:
+        return "Este miembro no existe", 400
+    
     response_body = {
         "hello": "world",
-        "family": members
+        "deleted": deleted
     }
 
     return jsonify(response_body), 200
@@ -73,6 +77,10 @@ def delete_person(id):
 @app.route('/member/<int:id>', methods=['GET'])
 def get_person(id):
     members = jackson_family.get_member(id)
+
+    if members is None:
+        return "Este miembro no existe", 400
+    
     response_body = {
         "hello": "world",
         "family": members
